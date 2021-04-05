@@ -68,7 +68,7 @@ const swap = async (a, b) => {
   await wait(swapDelay);
   draw();
   incrementSwaps();
-}
+};
 
 //selection sort
 
