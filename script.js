@@ -1,5 +1,7 @@
 //initialization
 
+const swapsDisplay = document.getElementById('swaps');
+const compsDisplay = document.getElementById('comparisons');
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
 
@@ -9,13 +11,24 @@ const ih = window.innerHeight;
 canvas.width = iw;
 canvas.height = ih;
 
-const size = 100;
-const swapDelay = 10;
+let size = 100;
+let swapDelay = 10;
 const heightLimit = 0.9;
+let running = false;
 
 let nums;
 let swaps = 0;
 let comparisons = 0;
+
+const incrementSwaps = () => {
+  swaps++;
+  swapsDisplay.innerText = swaps;
+};
+
+const incrementComps = () => {
+  comparisons++;
+  compsDisplay.innerText = comparisons;
+};
 
 const init = () => {
   nums = Array(size);
@@ -47,7 +60,7 @@ const swap = async (a, b) => {
   nums[b] = temp;
   await wait(swapDelay);
   draw();
-  swaps++;
+  incrementSwaps();
 }
 
 //selection sort
@@ -56,7 +69,7 @@ const findMin = (start, end) => {
   let min = start;
   for (let i = start + 1; i <= end; i++) {
     if (nums[i] < nums[min]) min = i;
-    comparisons++;
+    incrementComps();
   }
   return min;
 }
@@ -78,7 +91,7 @@ const insertItem = async (startIndex, endIndex) => {
       await swap(current, current-1);
       current--;
       isMore = current != startIndex;
-      comparisons++;
+      incrementComps();
     } else finished = true;
   }
 };
@@ -94,7 +107,7 @@ const insertionSort = async () => {
 const bubbleUp = async (startIndex, endIndex) => {
   for (let i = endIndex; i > startIndex; i--) {
     if (nums[i] < nums[i-1]) await swap(i, i-1);
-    comparisons++;
+    incrementComps();
   }
 };
 
@@ -111,19 +124,19 @@ const split = async (from, to) => {
   let first = from;
   let last = to;
   while (first < last) {
-    comparisons++;
+    incrementComps();
     first++;
     while (first < size && nums[first] <= nums[pivot]) {
       first++;
-      comparisons++;
+      incrementComps();
     }
     while (nums[last] > nums[pivot]) {
       last--;
-      comparisons++;
+      incrementComps();
     }
     if (first < last) {
       await swap(first, last);
-      comparisons++;
+      incrementComps();
     }
   }
   await swap(pivot, last);
@@ -132,7 +145,7 @@ const split = async (from, to) => {
 
 const quickSort = async (from, to) => {
   if (from < to) {
-    comparisons++;
+    incrementComps();
     let p = await split(from, to);
     await Promise.all([
       quickSort(from, p-1),
@@ -141,11 +154,38 @@ const quickSort = async (from, to) => {
   }
 };
 
+//run
+
+const run = async (e) => {
+  e.preventDefault();
+  if (!running) {
+    running = true;
+    size = e.target.elements.size.value;
+    swapDelay = 105 - e.target.elements.speed.value;
+    init();
+    draw();
+    swapsDisplay.innerText = 0;
+    compsDisplay.innerText = 0;
+    await wait(50);
+    switch (e.target.elements.sort.value) {
+      case 'Selection Sort':
+        await selectionSort();
+        break;
+      case 'Insertion Sort':
+        await insertionSort();
+        break;
+      case 'Bubble Sort':
+        await bubbleSort();
+        break;
+      case 'QuickSort':
+        await quickSort(0, size-1);
+        break;
+    };
+    running = false;
+  }
+};
+
 init();
 draw();
-(async () => {
-  // await selectionSort();
-  // await insertionSort();
-  // await bubbleSort();
-  // await quickSort(0, size-1);
-})();
+swapsDisplay.innerText = 0;
+compsDisplay.innerText = 0;

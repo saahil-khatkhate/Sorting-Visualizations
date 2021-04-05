@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id='controls'>
-        <form>
+        <form onsubmit='run(event)'>
             <div>
                 <span>Sort:</span>
                 <select name='sort'>
@@ -21,14 +21,15 @@
             </div>
             <div>
                 <span>Size:</span>
-                <input type='number' min='5' max='500' value='200' />
+                <input type='number' min='5' max='500' value='100' name='size' />
             </div>
             <div>
                 <span>Speed:</span>
-                <input type='range' min='1' max='100' value='100' step='1' />
+                <input type='range' min='1' max='100' value='100' step='1' name='speed' />
             </div>
+            <button>Start</button>
         </form>
-        <span>Sorts: <span id='sorts'></span></span>
+        <span>Sorts: <span id='swaps'></span></span>
         <span>Comparisons: <span id='comparisons'></span></span>
     </div>
     <canvas></canvas>

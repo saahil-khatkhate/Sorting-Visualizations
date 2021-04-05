@@ -47,3 +47,7 @@ body {
 #controls input[type='range'] {
     width: 15vw;
 }
+
+#controls button {
+    cursor: pointer;
+}
