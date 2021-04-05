@@ -2,4 +2,4 @@
 
 A visualization of a few different sorting algorithms
 
-[Demo](https://saahil-khatkhate.github.io/Sorting-Visualizations)
+[Demo](https://saahil-khatkhate.github.io/Sorting-Visualizations) (Made for horizontal screens)
