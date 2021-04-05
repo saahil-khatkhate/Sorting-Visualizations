@@ -9,16 +9,20 @@ const ih = window.innerHeight;
 canvas.width = iw;
 canvas.height = ih;
 
-const size = 50;
-const swapDelay = 5;
+const size = 100;
+const swapDelay = 10;
 
 let nums;
+let swaps = 0;
+let comparisons = 0;
 
 const init = () => {
   nums = Array(size);
   for (let i = 0; i < size; i++) {
     nums[i] = Math.floor(Math.random() * ih);
   }
+  swaps = 0;
+  comparisons = 0;
 };
 
 const draw = () => {
@@ -42,6 +46,7 @@ const swap = async (a, b) => {
   nums[b] = temp;
   await wait(swapDelay);
   draw();
+  swaps++;
 }
 
 //selection sort
@@ -50,6 +55,7 @@ const findMin = (start, end) => {
   let min = start;
   for (let i = start + 1; i <= end; i++) {
     if (nums[i] < nums[min]) min = i;
+    comparisons++;
   }
   return min;
 }
@@ -71,6 +77,7 @@ const insertItem = async (startIndex, endIndex) => {
       await swap(current, current-1);
       current--;
       isMore = current != startIndex;
+      comparisons++;
     } else finished = true;
   }
 };
@@ -86,6 +93,7 @@ const insertionSort = async () => {
 const bubbleUp = async (startIndex, endIndex) => {
   for (let i = endIndex; i > startIndex; i--) {
     if (nums[i] < nums[i-1]) await swap(i, i-1);
+    comparisons++;
   }
 };
 
@@ -102,10 +110,20 @@ const split = async (from, to) => {
   let first = from;
   let last = to;
   while (first < last) {
+    comparisons++;
     first++;
-    while (first < size && nums[first] <= nums[pivot]) first++;
-    while (nums[last] > nums[pivot]) last--;
-    if (first < last) await swap(first, last);
+    while (first < size && nums[first] <= nums[pivot]) {
+      first++;
+      comparisons++;
+    }
+    while (nums[last] > nums[pivot]) {
+      last--;
+      comparisons++;
+    }
+    if (first < last) {
+      await swap(first, last);
+      comparisons++;
+    }
   }
   await swap(pivot, last);
   return last;
@@ -113,6 +131,7 @@ const split = async (from, to) => {
 
 const quickSort = async (from, to) => {
   if (from < to) {
+    comparisons++;
     let p = await split(from, to);
     await Promise.all([
       quickSort(from, p-1),
@@ -123,7 +142,9 @@ const quickSort = async (from, to) => {
 
 init();
 draw();
-// selectionSort();
-// insertionSort();
-// bubbleSort();
-// quickSort(0, size-1);
+(async () => {
+  // await selectionSort();
+  // await insertionSort();
+  // await bubbleSort();
+  // await quickSort(0, size-1);
+})();
