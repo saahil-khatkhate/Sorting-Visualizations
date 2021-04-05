@@ -12,13 +12,38 @@ canvas.width = iw;
 canvas.height = ih;
 
 let size = 100;
-let swapDelay = 10;
-const heightLimit = 0.9;
-let running = false;
-
 let nums;
+let swapDelay = 10;
 let swaps = 0;
 let comparisons = 0;
+let running = false;
+
+//basic functions
+
+const resetCounters = () => {
+  swaps = 0;
+  comparisons = 0;
+  swapsDisplay.innerText = 0;
+  compsDisplay.innerText = 0;
+};
+
+const draw = () => {
+  c.fillStyle = 'black';
+  c.fillRect(0, 0, iw, ih);
+  c.fillStyle = 'white';
+  for (let i = 0; i < size; i++) {
+      c.fillRect(iw/size * i, ih - nums[i], iw/size, nums[i]);
+  }
+};
+
+const init = () => {
+  nums = Array(size);
+  for (let i = 0; i < size; i++) {
+    nums[i] = Math.floor(Math.random() * ih * 0.9);
+  }
+  draw();
+  resetCounters();
+};
 
 const incrementSwaps = () => {
   swaps++;
@@ -29,24 +54,6 @@ const incrementComps = () => {
   comparisons++;
   compsDisplay.innerText = comparisons;
 };
-
-const init = () => {
-  nums = Array(size);
-  for (let i = 0; i < size; i++) {
-    nums[i] = Math.floor(Math.random() * ih * heightLimit);
-  }
-  swaps = 0;
-  comparisons = 0;
-};
-
-const draw = () => {
-    c.fillStyle = 'black';
-    c.fillRect(0, 0, iw, ih);
-    c.fillStyle = 'white';
-    for (let i = 0; i < size; i++) {
-        c.fillRect(iw/size * i, ih - nums[i], iw/size, nums[i]);
-    }
-  };
 
 const wait = (ms) => {
   return new Promise((resolve) => {
@@ -156,17 +163,20 @@ const quickSort = async (from, to) => {
 
 //run
 
-const run = async (e) => {
+const generate = (e) => {
+  e.preventDefault();
+  if (!running) {
+    size = e.target.elements.size.value;
+    init();
+  }
+};
+
+const runSort = async (e) => {
   e.preventDefault();
   if (!running) {
     running = true;
-    size = e.target.elements.size.value;
+    resetCounters();
     swapDelay = 105 - e.target.elements.speed.value;
-    init();
-    draw();
-    swapsDisplay.innerText = 0;
-    compsDisplay.innerText = 0;
-    await wait(50);
     switch (e.target.elements.sort.value) {
       case 'Selection Sort':
         await selectionSort();
@@ -186,6 +196,3 @@ const run = async (e) => {
 };
 
 init();
-draw();
-swapsDisplay.innerText = 0;
-compsDisplay.innerText = 0;

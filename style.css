@@ -20,17 +20,28 @@ body {
     background: rgba(255, 255, 255, 0.1);
 }
 
-#controls form {
+#arrayForm {
     display: inline-flex;
-    width: 60%;
     height: 100%;
-    justify-content: space-around;
     align-items: center;
 }
 
-#controls span {
+#sortForm {
+    margin-left: 1vw;
+    display: inline-flex;
+    height: 100%;
+    align-items: center;;
+}
+
+form span {
     color: white;
     font-size: 2.5vh;
+    margin: 0 1vw;
+}
+
+form button {
+    margin: 0 1vw;
+    cursor: pointer;
 }
 
 #controls form span {
@@ -42,12 +53,9 @@ body {
     line-height: 5vh;
     vertical-align: middle;
     margin-right: 3vw;
+    color: white;
 }
 
 #controls input[type='range'] {
     width: 15vw;
-}
-
-#controls button {
-    cursor: pointer;
 }
