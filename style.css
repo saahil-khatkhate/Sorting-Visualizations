@@ -1,8 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 200;
 }
 
 body {
     overflow: hidden;
+}
+
+#controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 5vh;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+#controls form {
+    display: inline-flex;
+    width: 60%;
+    height: 100%;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#controls span {
+    color: white;
+    font-size: 2.5vh;
+}
+
+#controls form span {
+    margin-right: 1vw;
+}
+
+#controls > span {
+    float: right;
+    line-height: 5vh;
+    vertical-align: middle;
+    margin-right: 3vw;
+}
+
+#controls input[type='range'] {
+    width: 15vw;
 }

@@ -8,6 +8,29 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <div id='controls'>
+        <form>
+            <div>
+                <span>Sort:</span>
+                <select name='sort'>
+                    <option>Selection Sort</option>
+                    <option>Insertion Sort</option>
+                    <option>Bubble Sort</option>
+                    <option>QuickSort</option>
+                </select>
+            </div>
+            <div>
+                <span>Size:</span>
+                <input type='number' min='5' max='500' value='200' />
+            </div>
+            <div>
+                <span>Speed:</span>
+                <input type='range' min='1' max='100' value='100' step='1' />
+            </div>
+        </form>
+        <span>Sorts: <span id='sorts'></span></span>
+        <span>Comparisons: <span id='comparisons'></span></span>
+    </div>
     <canvas></canvas>
 
     <script src="script.js" ></script>

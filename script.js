@@ -11,6 +11,7 @@ canvas.height = ih;
 
 const size = 100;
 const swapDelay = 10;
+const heightLimit = 0.9;
 
 let nums;
 let swaps = 0;
@@ -19,7 +20,7 @@ let comparisons = 0;
 const init = () => {
   nums = Array(size);
   for (let i = 0; i < size; i++) {
-    nums[i] = Math.floor(Math.random() * ih);
+    nums[i] = Math.floor(Math.random() * ih * heightLimit);
   }
   swaps = 0;
   comparisons = 0;
